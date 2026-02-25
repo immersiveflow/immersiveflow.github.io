@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImmersiveFlow - Audio Demos</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #fdfdfd;
+            --card-bg: #ffffff;
+            --border: #e0e0e0;
+            --text: #333;
+            --text-light: #666;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            padding: 60px 0 50px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.6em;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        header h2 {
+            font-size: 1.15em;
+            font-weight: 400;
+            color: rgba(255,255,255,0.82);
+            max-width: 800px;
+            margin: 0 auto 28px;
+            line-height: 1.65;
+        }
+
+        .authors {
+            font-size: 1.05em;
+            color: rgba(255,255,255,0.72);
+            margin-bottom: 10px;
+        }
+
+        .venue {
+            display: inline-block;
+            background: rgba(255,255,255,0.12);
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.95em;
+            color: rgba(255,255,255,0.85);
+            margin-top: 12px;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary);
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 0.92em;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: #eaf2fb;
+            color: var(--accent);
+        }
+
+        nav .nav-label {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.88em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 4px;
+        }
+
+        /* Section */
+        section {
+            padding: 48px 0 32px;
+        }
+
+        section h2 {
+            font-size: 1.65em;
+            color: var(--primary);
+            margin-bottom: 8px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent);
+            display: inline-block;
+        }
+
+        section .section-desc {
+            color: var(--text-light);
+            margin: 12px 0 28px;
+            font-size: 0.98em;
+            max-width: 750px;
+        }
+
+        /* Sample Card */
+        .sample-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .sample-card-header {
+            background: linear-gradient(90deg, #f8f9fa, #eef1f5);
+            padding: 14px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sample-card-header .song-icon {
+            font-size: 1.3em;
+        }
+
+        .sample-card-header h3 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .sample-card-body {
+            padding: 20px 24px;
+        }
+
+        /* Audio Grid */
+        .audio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .audio-item {
+            text-align: center;
+        }
+
+        .audio-item .method-label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+
+        .audio-item .method-label.gt {
+            color: #27ae60;
+        }
+
+        .audio-item .method-label.proposed {
+            color: var(--accent);
+        }
+
+        .audio-item audio {
+            width: 100%;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        /* Responsive table approach for wider comparison */
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 4px;
+        }
+
+        .comparison-table thead th {
+            background: #f0f4f8;
+            padding: 10px 12px;
+            font-size: 0.82em;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-bottom: 2px solid var(--border);
+            text-align: center;
+        }
+
+        .comparison-table thead th:first-child {
+            text-align: left;
+            border-radius: 8px 0 0 0;
+        }
+
+        .comparison-table thead th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .comparison-table thead th.th-gt {
+            color: #27ae60;
+        }
+
+        .comparison-table thead th.th-proposed {
+            color: #2980b9;
+            background: #e8f4fd;
+        }
+
+        .comparison-table tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .comparison-table tbody td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.95em;
+            min-width: 120px;
+        }
+
+        .comparison-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: #fafbfc;
+        }
+
+        .comparison-table audio {
+            width: 100%;
+            min-width: 150px;
+            height: 38px;
+        }
+
+        /* Headphone notice */
+        .headphone-notice {
+            background: linear-gradient(90deg, #fff8e1, #fff3cd);
+            border: 1px solid #ffe082;
+            border-radius: 10px;
+            padding: 16px 24px;
+            margin: 24px 0 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95em;
+        }
+
+        .headphone-notice .icon {
+            font-size: 1.6em;
+        }
+
+        .headphone-notice strong {
+            color: #e65100;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a2e;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 32px 0;
+            font-size: 0.88em;
+            margin-top: 48px;
+        }
+
+        footer a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        /* Separator */
+        .section-sep {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 0;
+        }
+
+        /* Abstract */
+        .abstract {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin: 32px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .abstract h3 {
+            font-size: 1.15em;
+            color: var(--primary);
+            margin-bottom: 14px;
+        }
+
+        .abstract p {
+            color: var(--text-light);
+            font-size: 0.96em;
+            line-height: 1.75;
+            text-align: justify;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8em; }
+            header h2 { font-size: 1em; }
+            .sample-card-body { padding: 14px 12px; }
+            .comparison-table { font-size: 0.88em; }
+            .comparison-table audio { min-width: 100px; }
+        }
+
+        /* Scroll offset for sticky nav */
+        section[id] {
+            scroll-margin-top: 70px;
+        }
+
+        /* Download button for 7.1.4 */
+        .dl-btn {
+            display: inline-block;
+            padding: 6px 14px;
+            background: #f0f4f8;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.82em;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .dl-btn:hover {
+            background: #e1e8ef;
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .dl-btn::before {
+            content: '⬇ ';
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1>ImmersiveFlow</h1>
+        <h2>Demo Samples</h2>
+        <!-- <p class="authors">Author Names</p> -->
+    </div>
+</header>
+
+<main class="container">
+    <!-- Section 1: Fixed-Position Binaural -->
+    <section id="fixed">
+        <h2>Fixed-Position</h2>
+        <p class="section-desc">
+            Binaural audio rendered from 7.1.4 channel content at a fixed head position. 
+        </p>
+
+        <!-- Sample 1 -->
+        <div class="sample-card">
+            <div class="sample-card-header">
+                <span class="song-icon">🎵</span>
+                <h3>Sample 1</h3>
+            </div>
+            <div class="sample-card-body">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="th-gt">Ground Truth</th>
+                            <th class="th-proposed">ImmersiveFlow-pair</th>
+                            <th class="th-proposed">ImmersiveFlow</th>
+                            <th>Halo Upmix</th>
+                            <th>WavDSP Upmix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Binaural Audio (🎧 Please use headphones)</td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/gt_binaural_fix/for_life_binaural.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/stereo_pair_binaural_fix/for_life_binaural.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/gen_binaural_fix/for_life_binaural.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/halo_binaural_fix/for_life_binaural.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/wd_binaural_fix/for_life_binaural.wav" type="audio/wav"></audio></td>
+                        </tr>
+                        <tr>
+                            <td>7.1.4 (Requires loudspeaker setup)</td>
+                            <td><a class="dl-btn" href="sample/gt/714_cut/for_life.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/stereo_pair_xloss/714_cut/for_life.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/vae/714_cut/for_life.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/halo/714_cut/for_life.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/wd/714_cut/for_life.wav" download>Download</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sample 2 -->
+        <div class="sample-card">
+            <div class="sample-card-header">
+                <span class="song-icon">🎵</span>
+                <h3>Sample 2</h3>
+            </div>
+            <div class="sample-card-body">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="th-gt">Ground Truth</th>
+                            <th class="th-proposed">ImmersiveFlow-pair</th>
+                            <th class="th-proposed">ImmersiveFlow</th>
+                            <th>Halo Upmix</th>
+                            <th>WavDSP Upmix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Binaural Audio (🎧 Please use headphones)</td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/gt_binaural_fix/stars_will_again_binaural.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/stereo_pair_binaural_fix/stars_will_again_binaural.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/gen_binaural_fix/stars_will_again_binaural.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/halo_binaural_fix/stars_will_again_binaural.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/wd_binaural_fix/stars_will_again_binaural.wav" type="audio/wav"></audio></td>
+                        </tr>
+                        <tr>
+                            <td>7.1.4 (Requires loudspeaker setup)</td>
+                            <td><a class="dl-btn" href="sample/gt/714_cut/stars_will_again.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/stereo_pair_xloss/714_cut/stars_will_again.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/vae/714_cut/stars_will_again.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/halo/714_cut/stars_will_again.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/wd/714_cut/stars_will_again.wav" download>Download</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sample 3 -->
+        <div class="sample-card">
+            <div class="sample-card-header">
+                <span class="song-icon">🎵</span>
+                <h3>Sample 3</h3>
+            </div>
+            <div class="sample-card-body">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="th-gt">Ground Truth</th>
+                            <th class="th-proposed">ImmersiveFlow-pair</th>
+                            <th class="th-proposed">ImmersiveFlow</th>
+                            <th>Halo Upmix</th>
+                            <th>WavDSP Upmix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Binaural Audio (🎧 Please use headphones)</td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/gt_binaural_fix/the_feels_2_binaural.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/stereo_pair_binaural_fix/the_feels_2_binaural.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/gen_binaural_fix/the_feels_2_binaural.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/halo_binaural_fix/the_feels_2_binaural.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/wd_binaural_fix/the_feels_2_binaural.wav" type="audio/wav"></audio></td>
+                        </tr>
+                        <tr>
+                            <td>7.1.4 (Requires loudspeaker setup)</td>
+                            <td><a class="dl-btn" href="sample/gt/714_cut/the_feels_2.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/stereo_pair_xloss/714_cut/the_feels_2.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/vae/714_cut/the_feels_2.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/halo/714_cut/the_feels_2.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/wd/714_cut/the_feels_2.wav" download>Download</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <hr class="section-sep">
+
+    <!-- Section 2: Head-Rotation Binaural -->
+    <section id="rotation">
+        <h2>Head-Rotation</h2>
+        <p class="section-desc">
+            Binaural audio rendered with simulated head rotation.
+        </p>
+
+        <!-- Sample 1 -->
+        <div class="sample-card">
+            <div class="sample-card-header">
+                <span class="song-icon">🎵</span>
+                <h3>Sample 1</h3>
+            </div>
+            <div class="sample-card-body">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="th-gt">Ground Truth</th>
+                            <th class="th-proposed">ImmersiveFlow-pair</th>
+                            <th class="th-proposed">ImmersiveFlow</th>
+                            <th>Halo Upmix</th>
+                            <th>WavDSP Upmix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Binaural Audio (🎧 Please use headphones)</td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/gt_binaural_rotation/the_feels_binaural_rotation.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/stereo_pair_binaural_rotation/the_feels_binaural_rotation.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/gen_binaural_rotation/the_feels_binaural_rotation.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/halo_binaural_rotation/the_feels_binaural_rotation.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/wd_binaural_rotation/the_feels_binaural_rotation.wav" type="audio/wav"></audio></td>
+                        </tr>
+                        <tr>
+                            <td>7.1.4 (Requires loudspeaker setup)</td>
+                            <td><a class="dl-btn" href="sample/gt/714_cut/the_feels.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/stereo_pair_xloss/714_cut/the_feels.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/vae/714_cut/the_feels.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/halo/714_cut/the_feels.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/wd/714_cut/the_feels.wav" download>Download</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sample 2 -->
+        <div class="sample-card">
+            <div class="sample-card-header">
+                <span class="song-icon">🎵</span>
+                <h3>Sample 2</h3>
+            </div>
+            <div class="sample-card-body">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="th-gt">Ground Truth</th>
+                            <th class="th-proposed">ImmersiveFlow-pair</th>
+                            <th class="th-proposed">ImmersiveFlow</th>
+                            <th>Halo Upmix</th>
+                            <th>WavDSP Upmix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Binaural Audio (🎧 Please use headphones)</td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/gt_binaural_rotation/lost_on_me_binaural_rotation.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/stereo_pair_binaural_rotation/lost_on_me_binaural_rotation.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/gen_binaural_rotation/lost_on_me_binaural_rotation.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/halo_binaural_rotation/lost_on_me_binaural_rotation.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/wd_binaural_rotation/lost_on_me_binaural_rotation.wav" type="audio/wav"></audio></td>
+                        </tr>
+                        <tr>
+                            <td>7.1.4 (Requires loudspeaker setup)</td>
+                            <td><a class="dl-btn" href="sample/gt/714_cut/lost_on_me.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/stereo_pair_xloss/714_cut/lost_on_me.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/vae/714_cut/lost_on_me.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/halo/714_cut/lost_on_me.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/wd/714_cut/lost_on_me.wav" download>Download</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sample 3 -->
+        <div class="sample-card">
+            <div class="sample-card-header">
+                <span class="song-icon">🎵</span>
+                <h3>Sample 3</h3>
+            </div>
+            <div class="sample-card-body">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="th-gt">Ground Truth</th>
+                            <th class="th-proposed">ImmersiveFlow-pair</th>
+                            <th class="th-proposed">ImmersiveFlow</th>
+                            <th>Halo Upmix</th>
+                            <th>WavDSP Upmix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Binaural Audio (🎧 Please use headphones)</td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/gt_binaural_rotation/loco_binaural_rotation.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/stereo_pair_binaural_rotation/loco_binaural_rotation.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/gen_binaural_rotation/loco_binaural_rotation.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/halo_binaural_rotation/loco_binaural_rotation.wav" type="audio/wav"></audio></td>
+                            <td><audio controls controlsList="nodownload noplaybackrate" preload="none"><source src="sample_v2/wd_binaural_rotation/loco_binaural_rotation.wav" type="audio/wav"></audio></td>
+                        </tr>
+                        <tr>
+                            <td>7.1.4 (Requires loudspeaker setup)</td>
+                            <td><a class="dl-btn" href="sample/gt/714_cut/loco.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/stereo_pair_xloss/714_cut/loco.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/vae/714_cut/loco.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/halo/714_cut/loco.wav" download>Download</a></td>
+                            <td><a class="dl-btn" href="sample/wd/714_cut/loco.wav" download>Download</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container">
+        <p>ImmersiveFlow</p>
+    </div>
+</footer>
+
+</body>
+</html>
